@@ -1,0 +1,12 @@
+<mat-progress-bar mode="indeterminate" *ngIf="uploading"></mat-progress-bar>
+<div class="upload-drop-zone">
+  <form method="post" enctype="multipart/form-data" >
+    <mat-icon class="mat-18">cloud_upload</mat-icon>
+    <label for="w0-file-input">
+      <strong>Choose files</strong>
+      <!-- <span>or drag it here</span>. -->
+
+    </label>
+      <input id="w0-file-input" (change)="onChange($event.target.files)"
+      type="file" name="files[]" multiple="multiple"></form>
+</div>

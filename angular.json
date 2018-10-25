@@ -1,0 +1,146 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "@dimpu/ngx-file-manager": {
+      "root": "projects/dimpu/ngx-file-manager",
+      "sourceRoot": "projects/dimpu/ngx-file-manager/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/dimpu/ngx-file-manager/tsconfig.lib.json",
+            "project": "projects/dimpu/ngx-file-manager/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/dimpu/ngx-file-manager/src/test.ts",
+            "tsConfig": "projects/dimpu/ngx-file-manager/tsconfig.spec.json",
+            "karmaConfig": "projects/dimpu/ngx-file-manager/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/dimpu/ngx-file-manager/tsconfig.lib.json",
+              "projects/dimpu/ngx-file-manager/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ngx-file-manager-demo": {
+      "root": "projects/ngx-file-manager-demo/",
+      "sourceRoot": "projects/ngx-file-manager-demo/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ngx-file-manager-demo",
+            "index": "projects/ngx-file-manager-demo/src/index.html",
+            "main": "projects/ngx-file-manager-demo/src/main.ts",
+            "polyfills": "projects/ngx-file-manager-demo/src/polyfills.ts",
+            "tsConfig": "projects/ngx-file-manager-demo/tsconfig.app.json",
+            "assets": [
+              "projects/ngx-file-manager-demo/src/favicon.ico",
+              "projects/ngx-file-manager-demo/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-file-manager-demo/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngx-file-manager-demo/src/environments/environment.ts",
+                  "with": "projects/ngx-file-manager-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-file-manager-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-file-manager-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-file-manager-demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-file-manager-demo/src/test.ts",
+            "polyfills": "projects/ngx-file-manager-demo/src/polyfills.ts",
+            "tsConfig": "projects/ngx-file-manager-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-file-manager-demo/karma.conf.js",
+            "styles": [
+              "projects/ngx-file-manager-demo/src/styles.scss"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/ngx-file-manager-demo/src/favicon.ico",
+              "projects/ngx-file-manager-demo/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-file-manager-demo/tsconfig.app.json",
+              "projects/ngx-file-manager-demo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-file-manager-demo"
+}
