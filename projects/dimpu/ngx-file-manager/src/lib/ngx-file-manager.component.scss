@@ -10,14 +10,38 @@
   user-select: none;
 }
 
-.file-or-folder {
-  padding: 8px;
-  overflow: hidden;
+.container {
+  padding: 20px;
+  flex-flow: row wrap;
+  max-height: calc(100vh - 64px);
 }
 
+.file-or-folder {
+  overflow: hidden;
+  max-width: 200px;
+  max-height: 200px;
+  margin-bottom: 20px;
+  position: relative;
+  .title {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, .5);
+    width: 100%;
+    left: 0;
+    padding: 20px 0;
+    color: #fff;
+  }
+  &.selected .title {
+    background: rgb(62, 78, 184);
+  }
+}
+
+
+
+
 .file-or-folder-icon {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 250px;
   font-size: 50px;
 }
 
@@ -27,4 +51,20 @@
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.seach_form {
+  margin-right: 20px;
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.use-btn {
+  margin-right: 20px;
 }

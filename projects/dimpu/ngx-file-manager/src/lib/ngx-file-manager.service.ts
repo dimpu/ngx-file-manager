@@ -1,54 +1,37 @@
-// import { Injectable } from '@angular/core';
-// import { FileElement } from './file-element.interface';
-// import { BehaviorSubject } from 'rxjs';
-// import { v4 } from 'uuid';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class NgxFileManagerService {
-//   private map = new Map<string, FileElement>();
-//   private querySubject: BehaviorSubject<FileElement[]>;
-
-//   constructor() {}
-
-//   add(fileElement: FileElement) {
-//     fileElement.id = v4();
-//     this.map.set(fileElement.id, this.clone(fileElement));
-//     return fileElement;
-//   }
-
-//   delete(id: string) {
-//     this.map.delete(id);
-//   }
-
-//   update(id: string, update: Partial<FileElement>) {
-//     let element = this.map.get(id);
-//     element = Object.assign(element, update);
-//     this.map.set(element.id, element);
-//   }
+import { Injectable } from '@angular/core';
+import { FileElement } from './file-element.interface';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpRequest   } from '@angular/common/http';
+interface IApiConfig {
+  baseUrl: string;
+  listUrl: string;
+  uploadUrl: string;
+}
 
 
-//   queryInFolder(folderId: string) {
-//     const result: FileElement[] = [];
-//     this.map.forEach(element => {
-//       if (element.parent === folderId) {
-//         result.push(this.clone(element));
-//       }
-//     });
-//     if (!this.querySubject) {
-//       this.querySubject = new BehaviorSubject(result);
-//     } else {
-//       this.querySubject.next(result);
-//     }
-//     return this.querySubject.asObservable();
-//   }
+@Injectable({
+  providedIn: 'root'
+})
+export class NgxFileManagerService {
+  apiConfig: any;
 
-//   get(id: string) {
-//     return this.map.get(id);
-//   }
+  constructor(private _http: HttpClient) {}
 
-//   clone(element: FileElement) {
-//     return JSON.parse(JSON.stringify(element));
-//   }
-// }
+  setApiConfig(apiConfig) {
+    this.apiConfig = apiConfig;
+  }
+
+  getFilesList(): Observable<FileElement[]> {
+    return this._http.get < FileElement[]>(this.apiConfig.baseUrl + this.apiConfig.listUrl);
+  }
+
+  uploadFile(fileToUpload): Observable<any> {
+    const url = this.apiConfig.baseUrl + this.apiConfig.uploadUrl;
+    const formData: FormData = new FormData();
+    formData.append('pic', fileToUpload, fileToUpload.name);
+    const req = new HttpRequest('POST', url , formData, {
+      reportProgress: true
+    });
+    return this._http.request(req);
+  }
+}

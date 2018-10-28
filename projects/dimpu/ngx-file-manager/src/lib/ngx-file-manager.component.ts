@@ -3,10 +3,9 @@ import { FileElement } from './file-element.interface';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { NewFolderDialogComponent } from './modals/new-folder-dialog/new-folder-dialog.component';
-import { RenameDialogComponent } from './modals/rename-dialog/rename-dialog.component';
 import { UploadFileComponent } from './modals/upload-file/upload-file.component';
-
+import { NgxFileManagerService } from './ngx-file-manager.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'ngx-file-manager',
@@ -16,52 +15,41 @@ import { UploadFileComponent } from './modals/upload-file/upload-file.component'
   ]
 })
 export class NgxFileManagerComponent {
-  constructor(public dialog: MatDialog) {}
+  selectedElement = null;
+  @Input() fileElements$: Observable<FileElement[]>;
+  @Output() fileUploaded = new EventEmitter<FileElement>();
+  @Output() fileSelected = new EventEmitter<FileElement>();
 
-  @Input() fileElements: FileElement[] = [];
-  @Input() canNavigateUp: string;
-  @Input() path: string;
+  constructor(
+    public dialog: MatDialog,
+    public fileManagerService: NgxFileManagerService) {}
 
-  @Output() folderAdded = new EventEmitter<{ name: string }>();
-  @Output() elementRemoved = new EventEmitter<FileElement>();
-  @Output() elementRenamed = new EventEmitter<FileElement>();
-  @Output() elementMoved = new EventEmitter<{ element: FileElement; moveTo: FileElement }>();
-  @Output() navigatedDown = new EventEmitter<FileElement>();
-  @Output() navigatedUp = new EventEmitter();
+  // @Output() folderAdded = new EventEmitter<{ name: string }>();
+  // @Output() elementRenamed = new EventEmitter<FileElement>();
+  // @Output() elementMoved = new EventEmitter<{ element: FileElement; moveTo: FileElement }>();
+  // @Output() navigatedDown = new EventEmitter<FileElement>();
+  // @Output() navigatedUp = new EventEmitter();
+
+  @Input()
+  set apiConfig(config) {
+    this.fileManagerService.setApiConfig(config);
+    this.fileElements$ = this.fileManagerService.getFilesList();
+  }
 
   deleteElement(element: FileElement) {
-    this.elementRemoved.emit(element);
-  }
-
-  navigate(element: FileElement) {
-    if (element.isFolder) {
-      this.navigatedDown.emit(element);
-    }
-  }
-
-  navigateUp() {
-    this.navigatedUp.emit();
+    // this.elementRemoved.emit(element);
   }
 
   moveElement(element: FileElement, moveTo: FileElement) {
-    this.elementMoved.emit({ element: element, moveTo: moveTo });
+    // this.elementMoved.emit({ element: element, moveTo: moveTo });
   }
 
-  openNewFolderDialog() {
+  openUploadFileDialog() {
     const dialogRef = this.dialog.open(UploadFileComponent);
     dialogRef.afterClosed().subscribe(res => {
+      this.fileElements$ = this.fileManagerService.getFilesList();
       if (res) {
-        this.folderAdded.emit({ name: res });
-      }
-    });
-  }
-
-  openRenameDialog(element: FileElement) {
-    const dialogRef = this.dialog.open(RenameDialogComponent);
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        element.name = res;
-        this.elementRenamed.emit(element);
+        this.fileUploaded.emit(res);
       }
     });
   }
@@ -72,24 +60,19 @@ export class NgxFileManagerComponent {
   }
 
   isPhoto(el: FileElement) {
-    return el.extension === 'jpg';
+    return el.extension.toLocaleLowerCase().match(/.(jpg|jpeg|png|gif)$/i);
   }
 
   isFile(el: FileElement) {
     return !this.isPhoto(el);
   }
 
-  onSearch(query) { console.log(query);
-    this.fileElements = this.fileElements.map((el) => {
-      if (el.name.toLowerCase().includes(query.toLowerCase())) {
-        el.hidden = false;
-      } else {
-        el.hidden = true;
-      }
-      return el;
-    });
+  onElementSelect(element) {
+    this.selectedElement = element;
+  }
+
+  onSelect() {
+    this.fileSelected.emit(this.selectedElement);
   }
 
 }
-
-

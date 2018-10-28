@@ -5,33 +5,31 @@
 .upload-drop-zone {
   background-color: #f8f8f8;
   outline: 1px dashed #ccc;
+  width: 300px;
   padding: 20px;
-  margin-bottom: 15px;
   outline-offset: -10px;
   transition: all .4s;
-
   form {
     text-align: center;
   }
-
   label {
     display: block;
     cursor: pointer;
     font-size: 1.5em;
     font-weight: 700;
-
     span {
       font-weight: 400;
     }
   }
-
   input[type=file] {
     display: none;
   }
-
 }
-
 
 .mat-18 {
   font-size: 50px;
+}
+
+.mat-dialog-container  {
+  padding: 0;
 }

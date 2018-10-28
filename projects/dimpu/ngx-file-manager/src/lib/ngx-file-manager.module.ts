@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import {
   MatToolbarModule,
@@ -10,14 +11,12 @@ import {
   MatDialogModule,
   MatInputModule,
   MatCardModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatButtonModule
 } from '@angular/material';
-
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { NgxFileManagerComponent } from './ngx-file-manager.component';
-import { NewFolderDialogComponent } from './modals/new-folder-dialog/new-folder-dialog.component';
-import { RenameDialogComponent } from './modals/rename-dialog/rename-dialog.component';
 import { SearchPipe } from './search.pipe';
 import { UploadFileComponent } from './modals/upload-file/upload-file.component';
 
@@ -26,6 +25,7 @@ import { UploadFileComponent } from './modals/upload-file/upload-file.component'
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     // Import angular material
     MatToolbarModule,
     MatInputModule,
@@ -35,10 +35,11 @@ import { UploadFileComponent } from './modals/upload-file/upload-file.component'
     MatDialogModule,
     MatCardModule,
     MatProgressBarModule,
+    MatButtonModule,
     FlexLayoutModule
   ],
-  declarations: [NgxFileManagerComponent, NewFolderDialogComponent, RenameDialogComponent, SearchPipe, UploadFileComponent],
+  declarations: [NgxFileManagerComponent, SearchPipe, UploadFileComponent],
   exports: [NgxFileManagerComponent],
-  entryComponents: [NewFolderDialogComponent, RenameDialogComponent, UploadFileComponent]
+  entryComponents: [UploadFileComponent]
 })
 export class NgxFileManagerModule { }

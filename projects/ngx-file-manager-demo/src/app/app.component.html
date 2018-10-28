@@ -1,11 +1,22 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
-<ngx-file-manager
-  [fileElements]="fileElements"
-  [path]="currentPath"
-
-></ngx-file-manager>
-
+<div class="container">
+  <h2 class='title'>
+    Angular File Manager Demo
+  </h2>
+  This is just a demo of ngx-file-manger
+  <br />
+  <br />
+  <button mat-raised-button (click)="onOpenDialog()" color="primary">
+    Open File Picker
+  </button>
+  <br />
+  <br />
+  <mat-divider mat-inset></mat-divider>
+  <br />
+  <br />
+  <div style="margin: auto">
+<ngx-file-manager [apiConfig]="apiConfig" (fileUploaded)="onFileUploaded($event)" (fileSelected)="onFileSelected($event)"></ngx-file-manager>
+  </div>
+</div>
 
 
 <!-- [canNavigateUp]="canNavigateUp"
