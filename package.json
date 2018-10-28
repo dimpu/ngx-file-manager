@@ -1,6 +1,6 @@
 {
   "name": "ngx-file-manager",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "scripts": {
     "ng": "ng",
     "start": "npm run lib.build && concurrently 'npm:lib.build.watch' 'npm:demo.serve' 'npm:server.start'",
