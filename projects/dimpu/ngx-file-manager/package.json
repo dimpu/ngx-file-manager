@@ -1,8 +1,9 @@
 {
   "name": "@dimpu/ngx-file-manager",
-  "version": "0.0.1",
+  "version": "7.0.2",
   "peerDependencies": {
     "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0"
+    "@angular/core": "^7.0.0",
+    "@angular/material": "^7.0.0"
   }
 }
