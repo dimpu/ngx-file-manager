@@ -10,7 +10,7 @@ import { ExampleDialogComponent } from './modals/example-dialog/example-dialog.c
 })
 export class AppComponent {
   apiConfig: any = {
-    baseUrl: 'http://localhost:3100/api/',
+    baseUrl: '/api/',
     listUrl: 'list',
     uploadUrl: 'upload'
   };
